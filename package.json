@@ -1,6 +1,6 @@
 {
   "name": "m3u8-merger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "m3u8 to mp3,4.",
   "main": "dist/main.js",
   "bin": {
