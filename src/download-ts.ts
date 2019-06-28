@@ -3,14 +3,15 @@ import { join } from 'path';
 import * as request from 'request';
 import { DownloadProgress } from './download-progress';
 
-export function downloadTs({ tsList, urlPrefix, storageDir }: {
+export function downloadTs({ tsList, urlPrefix, storageDir, isConvert }: {
   tsList: string[],
   urlPrefix: string,
   storageDir: string,
+  isConvert: boolean,
 }) {
   // [url, fileName]
   const downloadList = tsList.map(o => [`${urlPrefix}${o}`, o.match(/.+?\.ts/)[0]]);
-  const downloadProgress = new DownloadProgress(downloadList, storageDir);
+  const downloadProgress = new DownloadProgress(downloadList, storageDir, isConvert);
 
   downloadList.forEach(o => {
     download({ url: o[0], fileName: o[1], dir: storageDir })

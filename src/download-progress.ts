@@ -10,6 +10,7 @@ export class DownloadProgress {
 
   constructor(private downloadList: string[][],
               private storageDir: string,
+              private autoConvert: boolean,
   ) {
     this.listLength = downloadList.length;
     this.finalFilePath = join(this.storageDir, '0'.repeat(6) + '.ts');
@@ -42,7 +43,9 @@ export class DownloadProgress {
           if (i === this.listLength - 1) {
             finalFileStream.close();
             process.stdout.write(`Merged file, output: ${this.finalFilePath}\n`);
-            this.convertToMP4();
+            if (this.autoConvert) {
+              this.convertToMP4();
+            }
           } else {
             mergeFile(this.downloadList[++i][1]);
           }
