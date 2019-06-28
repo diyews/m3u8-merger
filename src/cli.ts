@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as yargs from 'yargs';
-import { startDownload } from './start-download';
+import { m3u8Merger } from './main';
 
 const url = yargs.argv._[0];
-startDownload({ url });
+const dir = yargs.argv.d as string;
+m3u8Merger(url, dir);

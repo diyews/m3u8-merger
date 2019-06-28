@@ -1,12 +1,12 @@
 import * as request from 'request';
-import { downloadTs } from './download-ts';
 
-export function downloadM3u8(url: string) {
-  const urlPrefix = url.match(/(.+\/).+\.m3u8/)[1];
+export function downloadM3u8(url: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
 
-  request(url, (error, res) => {
-    const list = res.body.split('\n').filter(o => o.includes('.ts'));
+    request(url, (error, res) => {
+      const list: string[] = res.body.split('\n').filter(o => o.includes('.ts'));
 
-    downloadTs({ tsList: list, urlPrefix });
+      resolve(list);
+    });
   });
 }
