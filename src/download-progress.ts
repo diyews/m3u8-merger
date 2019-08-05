@@ -6,15 +6,16 @@ export class DownloadProgress {
   downloadedCount = 0;
   listLength: number;
   finalFilePath: string;
-  mp4FilePath: string;
+  outputFilePath: string;
 
   constructor(private downloadList: string[][],
               private storageDir: string,
               private autoConvert: boolean,
+              private format: string,
   ) {
     this.listLength = downloadList.length;
     this.finalFilePath = join(this.storageDir, '0'.repeat(6) + '.ts');
-    this.mp4FilePath = join(this.storageDir, '0'.repeat(6) + '.mp4');
+    this.outputFilePath = join(this.storageDir, '0'.repeat(6) + `.${format}`);
     process.stdout.write('Start Download ts files:\n');
     this.log();
   }
@@ -44,7 +45,7 @@ export class DownloadProgress {
             finalFileStream.close();
             process.stdout.write(`Merged file, output: ${this.finalFilePath}\n`);
             if (this.autoConvert) {
-              this.convertToMP4();
+              this.convertToFormat();
             }
           } else {
             mergeFile(this.downloadList[++i][1]);
@@ -55,19 +56,26 @@ export class DownloadProgress {
     mergeFile(this.downloadList[i][1]);
   }
 
-  convertToMP4() {
+  convertToFormat() {
+    const mp3 = ['-i', this.finalFilePath, '-q:a', '0', '-map', 'a', this.outputFilePath];
+    const mp4 = ['-i', this.finalFilePath, '-acodec', 'copy', '-vcodec', 'copy', this.outputFilePath];
+    const command = this.format === 'mp4' ? mp4 : mp3;
+    let lastErrorBuffer: Buffer = Buffer.from([]);
+
     const ffmpeg = spawn(`${process.env.FFMPEG_PATH}\\ffmpeg.exe`,
-      ['-i', this.finalFilePath, '-acodec', 'copy', '-vcodec', 'copy', this.mp4FilePath], {
+      command, {
         stdio: ['inherit', 'ignore', 'pipe'],
       });
-    ffmpeg.stderr.on('data', (data: string) => {
-      if (data.includes('Overwrite ?')) {
+    ffmpeg.stderr.on('data', (data: Buffer) => {
+      const buf = Buffer.concat([lastErrorBuffer, data], lastErrorBuffer.length + data.length);
+      if (buf.includes('Overwrite ?')) {
         process.stdout.write('File exist, Overwrite ? [y/N]');
       }
+      lastErrorBuffer = data;
     });
     ffmpeg.on('exit', code => {
       if (code === 0) {
-        process.stdout.write('Convert to MP4 success. bye.');
+        process.stdout.write('Convert file success. bye.');
       } else {
         process.stdout.write(code + '');
       }

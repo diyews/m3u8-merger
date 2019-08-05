@@ -1,6 +1,6 @@
 {
   "name": "m3u8-merger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "m3u8 to mp3,4.",
   "main": "dist/main.js",
   "bin": {
@@ -16,7 +16,8 @@
   "scripts": {
     "start": "nodemon ./dist/main.js \"https://videows1.douyucdn.cn/live/normal_1758361220190523203035-upload-e141/playlist.m3u8?k=0d4a49ace8e1586e8abb38a6afcc6cd6&t=5d0b40ea&nlimit=5&u=49145353&ct=web&vid=9356387&pt=2&cdn=ws&d=c008a80a19b371545cd7fe2800001501\"",
     "start:inspect": "nodemon --inspect ./dist/main.js",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "build": "tsc"
   },
   "keywords": [
     "m3u8"
