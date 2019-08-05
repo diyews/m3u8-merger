@@ -2,6 +2,7 @@
 Merge m3u8 to mp[3,4] by link.
 
 ## Usage
+Notice: FFmpeg is required. Download for your platform [here](https://ffmpeg.org/download.html). After downloaded, set environment variable `%FFMPEG_PATH%` that the directory includes `ffmpeg.exe`.
 - CLI:
   ```
   $ npm i m3u8-merger -g
