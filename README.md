@@ -15,7 +15,7 @@ Notice: FFmpeg is required. Download for your platform [here](https://ffmpeg.org
   
   ```js
   const m3u8Merger = require('m3u8-merger');
-  m3u8Merger(url, storageDir, isConvert);
+  m3u8Merger({url, storageDir, isConvert});
   ```
 ## Options
   ```
