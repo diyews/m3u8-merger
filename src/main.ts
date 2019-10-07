@@ -9,7 +9,7 @@ export async function m3u8Merger({url, dir, isConvert, format}: {
   format: string,
 }) {
   if (!url) {
-    return console.error('Muse provide a url');
+    return console.error('Must provide a url');
   }
   dir = dir || './ts';
   format = format || 'mp4';
