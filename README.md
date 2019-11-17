@@ -22,6 +22,10 @@ Notice: FFmpeg is required. Download for your platform [here](https://ffmpeg.org
   -d [dir]
     Default: './ts'. Dir to storage .ts file, 
     
-  --convert [true]
+  --convert, --no-convert
     Default: true. Whether convert merged .ts file to MP4.
   ```
+
+# TODO
+ - Pause, Resume
+ - configure download threads, better progress log
