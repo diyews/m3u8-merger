@@ -14,7 +14,8 @@
     "url": "https://github.com/diyews/m3u8-merger/issues"
   },
   "scripts": {
-    "start": "nodemon ./dist/main.js \"https://videows1.douyucdn.cn/live/normal_1758361220190523203035-upload-e141/playlist.m3u8?k=0d4a49ace8e1586e8abb38a6afcc6cd6&t=5d0b40ea&nlimit=5&u=49145353&ct=web&vid=9356387&pt=2&cdn=ws&d=c008a80a19b371545cd7fe2800001501\"",
+    "start": "nodemon --exec \"npm run start:dev\"",
+    "start:dev": "ts-node src/cli.ts \"https://videows1.douyucdn.cn/live/normal_1758361220190523203035-upload-e141/playlist.m3u8?k=0d4a49ace8e1586e8abb38a6afcc6cd6&t=5d0b40ea&nlimit=5&u=49145353&ct=web&vid=9356387&pt=2&cdn=ws&d=c008a80a19b371545cd7fe2800001501\"",
     "start:inspect": "nodemon --inspect ./dist/main.js",
     "watch": "tsc --watch",
     "build": "tsc"
@@ -28,12 +29,15 @@
     "@types/node": "^12.0.8",
     "@types/request": "^2.48.1",
     "@types/yargs": "^13.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.32.0",
+    "@typescript-eslint/parser": "^2.32.0",
+    "eslint": "^7.0.0",
     "nodemon": "^1.19.1",
-    "tslint": "^5.17.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.8.2"
   },
   "dependencies": {
     "request": "^2.88.0",
+    "ts-node": "^8.10.1",
     "yargs": "^13.2.4"
   }
 }
