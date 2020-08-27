@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "nodemon --exec \"npm run start:dev\"",
-    "start:dev": "ts-node src/cli.ts \"https://videows1.douyucdn.cn/live/normal_1758361220190523203035-upload-e141/playlist.m3u8?k=0d4a49ace8e1586e8abb38a6afcc6cd6&t=5d0b40ea&nlimit=5&u=49145353&ct=web&vid=9356387&pt=2&cdn=ws&d=c008a80a19b371545cd7fe2800001501\"",
+    "start:dev": "ts-node src/cli.ts \"https://play-tx-recpub.douyucdn2.cn/live/high_live-610588rq9PVp29he--20200815001703/playlist.m3u8?tlink=5f4642b1&tplay=5f46cf51&exper=0&nlimit=5&us=4d81ba72677f0af07459e9df00081501&sign=29e2881008a4cd261383cc429204b7b7&u=0&d=4d81ba72677f0af07459e9df00081501&ct=web&vid=15701248&pt=2&cdn=tx\"",
     "start:inspect": "nodemon --inspect ./dist/main.js",
     "watch": "tsc --watch",
     "build": "tsc"
@@ -26,6 +26,7 @@
   "author": "diyews",
   "license": "MIT",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.0",
     "@types/node": "^12.0.8",
     "@types/request": "^2.48.1",
     "@types/yargs": "^13.0.0",
@@ -36,7 +37,9 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
+    "fs-extra": "^9.0.0",
     "request": "^2.88.0",
+    "rxjs": "^6.5.5",
     "ts-node": "^8.10.1",
     "yargs": "^13.2.4"
   }

@@ -1,5 +1,5 @@
 import { join } from 'path';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import { spawn } from 'child_process';
 
 export class DownloadProgress {
@@ -7,6 +7,8 @@ export class DownloadProgress {
   listLength: number;
   finalFilePath: string;
   outputFilePath: string;
+  downloadListStatusJsonPath: string;
+  downloadListStatus = {};
 
   constructor(private downloadList: string[][],
               private storageDir: string,
@@ -16,8 +18,18 @@ export class DownloadProgress {
     this.listLength = downloadList.length;
     this.finalFilePath = join(this.storageDir, '0'.repeat(6) + '.ts');
     this.outputFilePath = join(this.storageDir, '0'.repeat(6) + `.${format}`);
+    this.downloadListStatusJsonPath = join(this.storageDir, 'res_status.json');
+    if (fs.existsSync(this.downloadListStatusJsonPath)) {
+      this.downloadListStatus = fs.readJSONSync(this.downloadListStatusJsonPath);
+    } else {
+      downloadList.forEach(value => {
+        this.downloadListStatus[value[1]] = false;
+      })
+    }
+    this.downloadedCount = Object.values(this.downloadListStatus).filter(o => o).length;
+
     process.stdout.write('Start Download ts files:\n');
-    this.log();
+    this.updateCount(null);
   }
 
   log() {
@@ -25,17 +37,20 @@ export class DownloadProgress {
     process.stdout.write(`${this.downloadedCount}/${this.listLength}`);
   }
 
-  updateCount() {
-    this.downloadedCount++;
+  updateCount(filename: string) {
+    if (filename) {
+      this.downloadedCount++;
+      this.downloadListStatus[filename] = true;
+    }
+    fs.outputJSONSync(this.downloadListStatusJsonPath, this.downloadListStatus, { spaces: 2 } )
     this.log();
     if (this.downloadedCount === this.listLength) {
-      process.stdout.write('\n');
       this.concatFiles();
     }
   }
 
   concatFiles() {
-    process.stdout.write('Merging files...\n');
+    process.stdout.write('\nMerging files...\n');
     const finalFileStream = fs.createWriteStream(join(this.storageDir, '0'.repeat(6) + '.ts'));
     let i = 0;
     const mergeFile = (file: string) => {
